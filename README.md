@@ -37,3 +37,6 @@ When a scrum team is ready to deploy their application to K8, application owner 
 
 Initially these scripts are basically committed to a repository which will trigger an automated build. This is to make sure that same package that is built from the code committed by KOP can be moved across environments from DEV to SIT to UAT to PREPROD to PROD
 
+# Tech stack
+Frontend : Flutter
+Backend : Flask / Python
