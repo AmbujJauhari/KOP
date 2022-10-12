@@ -31,9 +31,27 @@ KOP is basically a easy UI based tool which gives you to use it in 2 modes
 1. Devops Admin
 2. Application Developer
 
-Devops Admin basically controls the settings and configuration at a cluster level, so to spin up a new cluster based on the inputs by devops admin. KOP generates terraform scripts add istio service mesh configuration, logging metrics collection basically all of the things that we want to control at cluster level
+Devops Admin basically controls the settings and configuration at a cluster level, so to spin up a new cluster based on the inputs by devops admin. KOP generates the following
 
-When a scrum team is ready to deploy their application to K8, application owner raises a request in KOP with settings that are to be defined at an application level. This creates k8 CRD yaml files which are basically istio yaml files and auto scaler configurations for example. 
+1. Terraform scripts to create cluster
+2. Add istio service mesh configuration
+    - Ingress controller
+    - mTLS config
+3. Create yaml files for logging and metrics collection 
+4. Provide integration with Hashicorp Vault for storing secrets
+5. Create spring configuration server within cluster
+
+
+basically all of the things that we want to control at cluster level
+
+When a scrum team is ready to deploy their application to K8, application owner raises a request in KOP with settings that are to be defined at an application level. 
+
+1. This creates deployment files
+2. This creates service files
+3. This creates k8 CRD yaml files which are basically istio yaml files
+4. auto scaler configurations like HPA or custom via KEDA
+5. Creates namespace config with access to certain team members (optional)
+6. 
 
 Initially these scripts are basically committed to a repository which will trigger an automated build. This is to make sure that same package that is built from the code committed by KOP can be moved across environments from DEV to SIT to UAT to PREPROD to PROD
 
