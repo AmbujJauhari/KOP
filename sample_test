@@ -1,0 +1,35 @@
+truststorePath = Files.createTempFile("truststore", ".jks");
+
+        // Create an empty truststore
+        KeyStore trustStore = KeyStore.getInstance("JKS");
+        trustStore.load(null, null);
+
+        // Generate a certificate (could be self-signed or from a file)
+        X509Certificate cert = generateSelfSignedCertificate(); // Replace with actual cert loading if needed
+
+        // Add certificate to the truststore
+        trustStore.setCertificateEntry("alias", cert);
+
+        // Save the truststore to file
+        try (FileOutputStream fos = new FileOutputStream(truststorePath.toFile())) {
+            trustStore.store(fos, "password".toCharArray());
+        }
+
+        // Set the truststore as the system property for SSL connections
+        System.setProperty("javax.net.ssl.trustStore", truststorePath.toString());
+        System.setProperty("javax.net.ssl.trustStorePassword", "password");
+
+
+
+// Generates a self-signed certificate (dummy implementation)
+    private X509Certificate generateSelfSignedCertificate() throws CertificateException {
+        String certString = "-----BEGIN CERTIFICATE-----\n" +
+                "...your base64 cert data here...\n" +
+                "-----END CERTIFICATE-----";
+        CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+        try (var certInputStream = new java.io.ByteArrayInputStream(certString.getBytes())) {
+            return (X509Certificate) certFactory.generateCertificate(certInputStream);
+        } catch (IOException e) {
+            throw new CertificateException("Could not create certificate", e);
+        }
+    }
